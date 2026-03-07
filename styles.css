@@ -323,7 +323,7 @@ li {
   margin-top: 0.5rem;
 }
 
-/* ── PAGE HEADER ────────────────────────────────────────── */
+/*  page header */
 .page-header {
   background-color: var(--dark);
   color: #f5f7fa;
@@ -432,7 +432,7 @@ li {
   object-fit: cover;
 }
 
-/* ── SKILLS LIST ────────────────────────────────────────── */
+/* skills list */
 .skills-list {
   list-style: none;
   padding: 0;
@@ -450,7 +450,7 @@ li {
   margin: 0;
 }
 
-/* ── TABLE ──────────────────────────────────────────────── */
+/*  table */
 .table-wrap {
   overflow-x: auto;
   border-radius: var(--radius);
@@ -485,7 +485,7 @@ tbody tr:hover {
   background-color: rgba(198, 221, 240, 0.3);
 }
 
-/* ── IMAGE SLIDER ──────────────────────────────────────── */
+/* image slider */
 .image-slider {
   position: relative;
   max-width: 720px;
@@ -545,7 +545,7 @@ tbody tr:hover {
   justify-content: center;
 }
 
-/* ── GALLERY ────────────────────────────────────────────── */
+/* gallery */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -569,7 +569,7 @@ tbody tr:hover {
   color: #5a7080;
 }
 
-/* ── CONTACT PAGE ───────────────────────────────────────── */
+/* contact page */
 .contact-list {
   list-style: none;
   padding: 0;
@@ -644,7 +644,7 @@ tbody tr:hover {
   margin: 0;
 }
 
-/* ── FOOTER ─────────────────────────────────────────────── */
+/*  footer */
 .footer {
   background-color: var(--dark);
   color: var(--pale-blue);
@@ -702,7 +702,7 @@ tbody tr:hover {
   color: rgba(245, 247, 250, 0.8);
 }
 
-/* ── mobile responsive ────────────────────────────────── */
+/*  mobile responsive  */
 @media (max-width: 640px) {
   /* show hamburger and hide nav */
   .hamburger {
