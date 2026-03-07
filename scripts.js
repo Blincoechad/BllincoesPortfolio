@@ -133,7 +133,7 @@
     if (!track || !slides.length || !prev || !next) return;
 
     var index = 0;
-    var interval = 4500;
+    var interval = 2500;
     var timer;
 
     function update() {
