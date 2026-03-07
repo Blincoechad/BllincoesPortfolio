@@ -307,7 +307,7 @@ li {
 }
 .hero-subtitle {
   font-size: 1.1rem;
-  color: var(--blue-mid);
+  color: var(--dark);
   font-weight: 600;
   margin: 0;
 }
