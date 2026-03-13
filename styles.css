@@ -459,6 +459,12 @@ li {
 }
 
 /*  table */
+.work-table-caption {
+  position: relative;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
 .table-wrap {
   overflow-x: auto;
   border-radius: var(--radius);
