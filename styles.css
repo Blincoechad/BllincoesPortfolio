@@ -582,11 +582,9 @@ tbody tr:hover {
   list-style: none;
   padding: 0;
   margin-top: 1rem;
-  
 }
 .contact-list li {
   margin-bottom: 0.6rem;
-  
 }
 .contact-text {
   color: rgb(6, 6, 189);
@@ -640,7 +638,7 @@ tbody tr:hover {
 }
 .form-note {
   font-size: 0.8rem;
-  color: #888;
+  color: #4e4c4c;
 }
 .form-group textarea {
   resize: vertical;
