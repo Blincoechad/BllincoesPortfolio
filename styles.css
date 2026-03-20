@@ -611,13 +611,13 @@ tbody tr:hover {
   font-family: sans-serif;
 }
 .clickToView {
+  color: rgba(0, 0, 0, 0.838);
   font-size: 15px;
   max-width: 12rem;
   margin: 0 auto;
   margin-bottom: 2rem;
   top: 60px;
   z-index: 3001;
-  background-color: rgba(59, 98, 150, 0.087);
   padding: 0.5rem 0;
   text-align: center;
 }
