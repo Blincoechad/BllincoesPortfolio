@@ -1,4 +1,5 @@
-
+// Supabase code for my contact form
+// Supabase setup
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 const supabase = createClient(
   'https://xxjjwbaovtbylknwgbzt.supabase.co',
@@ -38,11 +39,7 @@ const supabase = createClient(
 })();
 
 
-/*  contact form validation  */
 /*  contact form validation + supabase  */
-
-
-
 
 (function () {
   let form    = document.getElementById('contactForm');
@@ -369,6 +366,5 @@ const supabase = createClient(
 })();
 
 
-// Supabase code for my contact form
-// Supabase setup
-// Supabase setup
+
+
