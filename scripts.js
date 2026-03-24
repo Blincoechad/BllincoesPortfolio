@@ -191,7 +191,7 @@ const supabase = createClient(
 
 /*  gallery lightbox for figure images */
 (function () {
-  var galleryImages = document.querySelectorAll('.gallery-grid img, .gallery-grid video');
+  var galleryImages = document.querySelectorAll('.gallery-grid img, .gallery-grid video, .card img, .redesign-preview img');
   if (!galleryImages.length) return;
 
   var overlay = document.createElement('div');
