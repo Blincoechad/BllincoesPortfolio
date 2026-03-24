@@ -1,0 +1,19 @@
+{
+  "name": "blincoes-portfolio",
+  "version": "1.0.0",
+  "description": "Chad Blincoe's portfolio website",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Static site - no build step needed'"
+  },
+  "keywords": [
+    "portfolio",
+    "web-design"
+  ],
+  "author": "Chad Blincoe",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}

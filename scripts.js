@@ -5,6 +5,13 @@ const supabase = createClient(
   'https://xxjjwbaovtbylknwgbzt.supabase.co',
   'sb_publishable_ggiWZHIFBs_QdJy2bgPJGw_cP2dUoza'
 )
+
+// Vercel Speed Insights
+import { injectSpeedInsights } from 'https://cdn.jsdelivr.net/npm/@vercel/speed-insights@latest/dist/index.mjs';
+
+// Initialize Speed Insights
+injectSpeedInsights();
+
 'use strict';
 
 /*  hamburger menu  */
