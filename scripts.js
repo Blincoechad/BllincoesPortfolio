@@ -1,207 +1,273 @@
-// Supabase code for my contact form
-// Supabase setup
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-const supabase = createClient(
-  'https://xxjjwbaovtbylknwgbzt.supabase.co',
-  'sb_publishable_ggiWZHIFBs_QdJy2bgPJGw_cP2dUoza'
-)
 'use strict';
 
-/*  hamburger menu  */
-(function () {
-  let btn  = document.getElementById('hamburger');
-  let menu = document.getElementById('navLinks');
-  if (!btn || !menu) return;
+//  the mobile hamburger menu 
 
-  btn.addEventListener('click', function () {
-    let open = menu.classList.toggle('is-open');
-    btn.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', String(open));
+var hamburgerBtn = document.getElementById('hamburger');
+var navMenu = document.getElementById('navLinks');
+
+if (hamburgerBtn && navMenu) {
+
+  hamburgerBtn.addEventListener('click', function () {
+    var isOpen = navMenu.classList.toggle('is-open');
+    hamburgerBtn.classList.toggle('is-open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  // close when a link is tapped
-  menu.querySelectorAll('.nav-link').forEach(function (link) {
-    link.addEventListener('click', function () {
-      menu.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
+  // close menu when a nav link is clicked
+  var navLinks = navMenu.querySelectorAll('.nav-link');
+  for (var i = 0; i < navLinks.length; i++) {
+    navLinks[i].addEventListener('click', function () {
+      navMenu.classList.remove('is-open');
+      hamburgerBtn.classList.remove('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
     });
-  });
+  }
 
-  // close on outside click
+  // close menu when clicking outside of it
   document.addEventListener('click', function (e) {
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
-      menu.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
+    var clickedInsideMenu = navMenu.contains(e.target);
+    var clickedBtn = hamburgerBtn.contains(e.target);
+    if (!clickedInsideMenu && !clickedBtn) {
+      navMenu.classList.remove('is-open');
+      hamburgerBtn.classList.remove('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
     }
   });
-})();
+
+}
 
 
-/*  contact form validation + supabase  */
+     // contact form - formspree is whats handling the submissions
 
-(function () {
-  let form    = document.getElementById('contactForm');
-  let success = document.getElementById('formSuccess');
-  let error   = document.getElementById('formError');
-  if (!form) return;
+var contactForm = document.getElementById('contactForm');
+var successMsg = document.getElementById('formSuccess');
+var errorMsg = document.getElementById('formError');
 
-  function isValidEmail(val) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+if (contactForm) {
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  function setError(id, msg) {
-    let field = document.getElementById(id);
-    let err   = document.getElementById(id + '-error');
+  function showFieldError(fieldId, message) {
+    var field = document.getElementById(fieldId);
+    var errorSpan = document.getElementById(fieldId + '-error');
     if (field) field.classList.add('error');
-    if (err)   err.textContent = msg;
+    if (errorSpan) errorSpan.textContent = message;
   }
 
-  function clearError(id) {
-    let field = document.getElementById(id);
-    let err   = document.getElementById(id + '-error');
+  function clearFieldError(fieldId) {
+    var field = document.getElementById(fieldId);
+    var errorSpan = document.getElementById(fieldId + '-error');
     if (field) field.classList.remove('error');
-    if (err)   err.textContent = '';
+    if (errorSpan) errorSpan.textContent = '';
   }
 
-  // inline validation on blur
-  ['name', 'email', 'message'].forEach(function (id) {
-    let field = document.getElementById(id);
-    if (!field) return;
-    field.addEventListener('blur', function () {
-      if (!field.value.trim()) {
-        setError(id, 'This field is required.');
-      } else if (id === 'email' && !isValidEmail(field.value.trim())) {
-        setError(id, 'Please enter a valid email address.');
-      } else {
-        clearError(id);
-      }
-    });
-    field.addEventListener('input', function () {
-      if (field.value.trim()) clearError(id);
-    });
+  // show error on blur if field is empty
+  // var nameField = document.getElementById('name');
+  // var emailField = document.getElementById('email');
+  // var messageField = document.getElementById('message');
+
+  // nameField.addEventListener('blur', function () {
+  //   if (!nameField.value.trim()) {
+  //     showFieldError('name', 'This field is required.');
+  //   } else {
+  //     clearFieldError('name');
+  //   }
+  // });
+
+  emailField.addEventListener('blur', function () {
+    if (!emailField.value.trim()) {
+      showFieldError('email', 'This field is required.');
+    } else if (!isValidEmail(emailField.value.trim())) {
+      showFieldError('email', 'Please enter a valid email address.');
+    } else {
+      clearFieldError('email');
+    }
   });
 
-  form.addEventListener('submit', async function (e) {
+  messageField.addEventListener('blur', function () {
+    if (!messageField.value.trim()) {
+      showFieldError('message', 'This field is required.');
+    } else {
+      clearFieldError('message');
+    }
+  });
+
+          // clear error while user is typing
+  // nameField.addEventListener('input', function () {
+  //   if (nameField.value.trim()) clearFieldError('name');
+  // });
+
+  // emailField.addEventListener('input', function () {
+  //   if (emailField.value.trim()) clearFieldError('email');
+  // });
+
+  // messageField.addEventListener('input', function () {
+  //   if (messageField.value.trim()) clearFieldError('message');
+  // });
+
+            // handle form submission
+  contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    let valid = true;
 
-    if (error) { error.hidden = true; error.textContent = ''; }
-    ['name', 'email', 'message'].forEach(clearError);
+    var isValid = true;
 
-    let nameVal    = document.getElementById('name').value.trim();
-    let emailVal   = document.getElementById('email').value.trim();
-    let messageVal = document.getElementById('message').value.trim();
-    let projectType = document.getElementById('project-type').value;
+    if (errorMsg) {
+      errorMsg.hidden = true;
+      errorMsg.textContent = '';
+    }
 
-    if (!nameVal)                     { setError('name', 'Please enter your full name.'); valid = false; }
-    if (!emailVal)                    { setError('email', 'Please enter your email.'); valid = false; }
-    else if (!isValidEmail(emailVal)) { setError('email', 'Please enter a valid email.'); valid = false; }
-    if (!messageVal)                  { setError('message', 'Please enter a message.'); valid = false; }
+    clearFieldError('name');
+    clearFieldError('email');
+    clearFieldError('message');
 
-    if (!valid) {
-      if (error) {
-        error.textContent = 'Please fill out the required fields marked with a red asterisk.';
-        error.hidden = false;
+    var nameVal = nameField.value.trim();
+    var emailVal = emailField.value.trim();
+    var messageVal = messageField.value.trim();
+
+    if (!nameVal) {
+      showFieldError('name', 'Please enter your full name.');
+      isValid = false;
+    }
+
+    if (!emailVal) {
+      showFieldError('email', 'Please enter your email.');
+      isValid = false;
+    } else if (!isValidEmail(emailVal)) {
+      showFieldError('email', 'Please enter a valid email.');
+      isValid = false;
+    }
+
+    if (!messageVal) {
+      showFieldError('message', 'Please enter a message.');
+      isValid = false;
+    }
+
+    if (!isValid) {
+      if (errorMsg) {
+        errorMsg.textContent = 'Please fill out the required fields marked with a red asterisk.';
+        errorMsg.hidden = false;
       }
       return;
     }
 
-    // submit to supabase
-    const { error: sbError } = await supabase
-      .from('contact_submissions')
-      .insert([{ name: nameVal, email: emailVal, project_type: projectType, message: messageVal }])
+    // send form data to formspree
+    fetch('https://formspree.io/f/mnjoagqd', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(contactForm)
+    })
+    .then(function (response) {
+      if (response.ok) {
+        contactForm.reset();
+        if (successMsg) {
+          successMsg.hidden = false;
+          successMsg.focus();
+          setTimeout(function () {
+            successMsg.hidden = true;
+          }, 6000);
+        }
+      } else {
+        if (errorMsg) {
+          errorMsg.textContent = 'Something went wrong. Please try again.';
+          errorMsg.hidden = false;
+        }
+      }
+    });
 
-    if (sbError) {
-      if (error) {
-        error.textContent = 'You have reached the message limit for the day Please try again in 24 hours, Thanks!';
-        error.hidden = false;
-      }
-    } else {
-      form.reset();
-      if (success) {
-        success.hidden = false;
-        success.focus();
-        setTimeout(function () { success.hidden = true; }, 6000);
-      }
-    }
   });
-})();
+
+}
 
 
-/*  simple image slider  */
-(function () {
-  var sliders = document.querySelectorAll('.image-slider');
-  if (!sliders.length) return;
+// image slider on about page
 
-  sliders.forEach(function (slider) {
-    var track = slider.querySelector('.slider-track');
-    var slides = slider.querySelectorAll('.slide');
-    var prev = slider.querySelector('.slider-btn.prev');
-    var next = slider.querySelector('.slider-btn.next');
+var sliders = document.querySelectorAll('.image-slider');
 
-    if (!track || !slides.length || !prev || !next) return;
+for (var s = 0; s < sliders.length; s++) {
+  var slider = sliders[s];
+  var track = slider.querySelector('.slider-track');
+  var slides = slider.querySelectorAll('.slide');
+  var prevBtn = slider.querySelector('.slider-btn.prev');
+  var nextBtn = slider.querySelector('.slider-btn.next');
 
+  if (!track || !slides.length || !prevBtn || !nextBtn) continue;
+
+  var currentIndex = 0;
+  var autoPlayTimer = null;
+
+  // I used a function to create scoped event listeners for each slider
+  function setupSlider(track, slides, prevBtn, nextBtn, slider) {
     var index = 0;
-    var interval = 2500;
-    var timer;
+    var timer = null;
 
     function update() {
       track.style.transform = 'translateX(' + (-index * 100) + '%)';
-      slides.forEach(function (slide, i) {
-        slide.setAttribute('aria-hidden', i !== index);
-      });
+      for (var i = 0; i < slides.length; i++) {
+        slides[i].setAttribute('aria-hidden', i !== index);
+      }
     }
-
+      // I made a function that auto plays the slider with my certifacates and 
+      // set a time interval for how fast it will go through the images
     function startAutoPlay() {
       stopAutoPlay();
       timer = setInterval(function () {
+        // used the modulo operator to get the remainder, which is 1, and 
+        // causes a never ending loop
         index = (index + 1) % slides.length;
         update();
-      }, interval);
+      }, 2500);
     }
-
+      // this is an extra function i added that causes the slider to stop
+      // moving when user hovers over image
     function stopAutoPlay() {
       if (timer) {
         clearInterval(timer);
         timer = null;
       }
     }
-
-    prev.addEventListener('click', function () {
+      // the next two blocks of code are event listeners added onto 
+      // the buttons and listens for a click then moves either forward or backwards
+    prevBtn.addEventListener('click', function () {
       index = (index - 1 + slides.length) % slides.length;
       update();
       startAutoPlay();
     });
 
-    next.addEventListener('click', function () {
+    nextBtn.addEventListener('click', function () {
       index = (index + 1) % slides.length;
       update();
       startAutoPlay();
     });
-
+      // this code causes the images to stop/contine when mouse moves on top
+      // of them then when it moves away
     slider.addEventListener('mouseenter', stopAutoPlay);
     slider.addEventListener('mouseleave', startAutoPlay);
 
     update();
     startAutoPlay();
-  });
-})();
+  }
 
-/*  gallery lightbox for figure images */
-(function () {
-  var galleryImages = document.querySelectorAll('.gallery-grid img, .gallery-grid video, .card img, .redesign-preview img');
-  if (!galleryImages.length) return;
+  setupSlider(track, slides, prevBtn, nextBtn, slider);
+}
 
+
+// the gallery lighthouse effect on my images thought site
+
+var galleryImages = document.querySelectorAll('.gallery-grid img, .gallery-grid video, .card img, .redesign-preview img');
+
+if (galleryImages.length > 0) {
+
+  // the lightbox elements
   var overlay = document.createElement('div');
   overlay.className = 'lightbox-overlay';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', 'Image viewer');
 
-  var content = document.createElement('div');
-  content.className = 'lightbox-content';
+  var lightboxContent = document.createElement('div');
+  lightboxContent.className = 'lightbox-content';
 
   var closeBtn = document.createElement('button');
   closeBtn.type = 'button';
@@ -230,12 +296,12 @@ const supabase = createClient(
   var captionElem = document.createElement('p');
   captionElem.className = 'lightbox-caption';
 
-  content.appendChild(closeBtn);
-  content.appendChild(largeImage);
-  content.appendChild(largeVideo);
-  content.appendChild(splitContainer);
-  content.appendChild(captionElem);
-  overlay.appendChild(content);
+  lightboxContent.appendChild(closeBtn);
+  lightboxContent.appendChild(largeImage);
+  lightboxContent.appendChild(largeVideo);
+  lightboxContent.appendChild(splitContainer);
+  lightboxContent.appendChild(captionElem);
+  overlay.appendChild(lightboxContent);
   document.body.appendChild(overlay);
 
   function openLightbox(src, alt, caption) {
@@ -253,8 +319,8 @@ const supabase = createClient(
 
   function openVideoLightbox(src, caption) {
     largeVideo.src = src;
-    largeVideo.muted = false;
     largeVideo.style.display = '';
+    largeVideo.load();
     largeVideo.play();
     largeImage.style.display = 'none';
     largeImage.src = '';
@@ -292,23 +358,29 @@ const supabase = createClient(
     splitImageB.src = '';
   }
 
-  galleryImages.forEach(function (el) {
+  // add click events to each gallery image
+  for (var i = 0; i < galleryImages.length; i++) {
+    var el = galleryImages[i];
     var splitImageParent = el.closest('.split-image');
     var figure = el.closest('figure');
-    var caption = figure && figure.querySelector('figcaption') ? figure.querySelector('figcaption').textContent : '';
+    var caption = '';
+
+    if (figure && figure.querySelector('figcaption')) {
+      caption = figure.querySelector('figcaption').textContent;
+    }
 
     el.setAttribute('tabindex', '0');
     el.style.cursor = 'pointer';
 
-    // split image code
+    // split image handling
     if (splitImageParent) {
       el.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var sharedFigure = el.closest('figure');
-        var images = sharedFigure.querySelectorAll('.split-image__item img');
-        if (images.length >= 2) {
-          openSplitLightbox(images[0].src, images[1].src, caption);
+        var parentFigure = this.closest('figure');
+        var imgs = parentFigure.querySelectorAll('.split-image__item img');
+        if (imgs.length >= 2) {
+          openSplitLightbox(imgs[0].src, imgs[1].src, caption);
         }
       });
 
@@ -316,55 +388,61 @@ const supabase = createClient(
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           e.stopPropagation();
-          var sharedFigure = el.closest('figure');
-          var images = sharedFigure.querySelectorAll('.split-image__item img');
-          if (images.length >= 2) {
-            openSplitLightbox(images[0].src, images[1].src, caption);
+          var parentFigure = this.closest('figure');
+          var imgs = parentFigure.querySelectorAll('.split-image__item img');
+          if (imgs.length >= 2) {
+            openSplitLightbox(imgs[0].src, imgs[1].src, caption);
           }
         }
       });
-      return;
+      continue;
     }
 
-    // video handling code
+    // video handling
     if (el.tagName === 'VIDEO') {
       el.addEventListener('click', function () {
-        openVideoLightbox(el.querySelector('source') ? el.querySelector('source').src : el.src, caption);
+        var src = this.querySelector('source') ? this.querySelector('source').src : this.src;
+        openVideoLightbox(src, caption);
       });
 
       el.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          openVideoLightbox(el.querySelector('source') ? el.querySelector('source').src : el.src, caption);
+          var src = this.querySelector('source') ? this.querySelector('source').src : this.src;
+          openVideoLightbox(src, caption);
         }
       });
-      return;
+      continue;
     }
 
-    // image handling code
+    // regular image handling
     el.addEventListener('click', function () {
-      openLightbox(el.src, el.alt, caption);
+      openLightbox(this.src, this.alt, caption);
     });
 
     el.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openLightbox(el.src, el.alt, caption);
+        openLightbox(this.src, this.alt, caption);
       }
     });
-  });
+  }
 
+  // close lightbox on button click
   closeBtn.addEventListener('click', closeLightbox);
 
+  // close lightbox when clicking the dark background
   overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) closeLightbox();
+    if (e.target === overlay) {
+      closeLightbox();
+    }
   });
 
+  // close lightbox with escape key
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+      closeLightbox();
+    }
   });
-})();
 
-
-
-
+}

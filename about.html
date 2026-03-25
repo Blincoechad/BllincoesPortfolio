@@ -1,4 +1,5 @@
 <!-- take and add 2 or more photos (resize image size) -->
+ <!-- fix the prev button on slider - next button is only visible-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -167,13 +168,7 @@
           <h2>Certifications from Online Courses</h2>
           <p class="sliderTitle">Preview of Certifications</p>
           <div class="image-slider" aria-label="Certification image slideshow">
-            <button
-              class="slider-btn prev"
-              type="button"
-              aria-label="Previous slide"
-            >
-              ◀
-            </button>
+            
             <div class="slider-track">
               <img
                 class="slide"
@@ -254,6 +249,13 @@
             >
               ▶
             </button>
+            <button
+              class="slider-btn prev"
+              type="button"
+              aria-label="Previous slide"
+            >
+              ◀
+            </button>
           </div>
         </div>
       </section>
@@ -306,6 +308,6 @@
       </div>
     </footer>
 
-    <script type="module" src="scripts.js"></script>
+     <script src="scripts.js" defer></script>
   </body>
 </html>
