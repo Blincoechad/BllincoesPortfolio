@@ -283,6 +283,10 @@ if (galleryImages.length > 0) {
   largeVideo.playsInline = true;
   largeVideo.controls = true;
   largeVideo.style.display = 'none';
+   // makes the sound play automatically when it gets opened
+  largeVideo.muted = false;
+    // volume was opening @ 100% so this line makes it open at 50% 
+  largeVideo.volume = .5;
 
   var splitContainer = document.createElement('div');
   splitContainer.className = 'lightbox-split';

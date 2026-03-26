@@ -272,6 +272,14 @@ li {
     color 0.2s,
     border-color 0.2s;
 }
+.btn-about {
+  display: flex;
+  max-width: 10rem;
+  padding: 1.3rem;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 4.6rem;
+}
 .btn-primary {
   background-color: var(--dark);
   color: #fff;
@@ -371,6 +379,13 @@ li {
 .card h3,
 .card p {
   color: var(--dark);
+}
+.meImg {
+  margin-top: 6rem;
+  border-radius: 10px;
+  box-shadow: 1px 20px 32px black;
+  padding: 1rem;
+  background-color: var(--blue-light);
 }
 .card img {
   border-radius: calc(var(--radius) - 2px);
@@ -508,7 +523,23 @@ tbody tr:hover {
   background-color: rgba(198, 221, 240, 0.3);
 }
 
-/* image slider */
+/* about page - image slider */
+.CCC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+  font-size: 1.4rem;
+  text-decoration: underline;
+  line-height: 4rem;
+}
+.aboutPara {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+  font-size: 1.2rem;
+  text-indent: 1rem;
+  margin: 1.4rem;
+}
 .image-slider {
   position: relative;
   max-width: 720px;
@@ -677,13 +708,16 @@ tbody tr:hover {
   display: flex;
   gap: 0.5rem;
   width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
+  align-items: flex-start;
 }
 .lightbox-split img {
   width: calc(50% - 0.25rem);
   max-width: calc(50% - 0.25rem);
-  min-width: 180px;
+  min-width: 0;
+  max-height: 80vh;
+  object-fit: contain;
 }
 .lightbox-caption {
   margin-top: 0.65rem;
