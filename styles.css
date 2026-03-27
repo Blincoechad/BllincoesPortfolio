@@ -428,7 +428,7 @@ li {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: auto;
+  margin-top: 0.75rem;
 }
 .redesign-preview .card-btns,
 .github-btn-row {
@@ -457,18 +457,21 @@ li {
   margin-top: 0.5rem;
 }
 
-/* Ensure before/after preview blocks have enough height for buttons on mobile */
+/* Ensure before/after preview blocks have enough height for buttons */
 .redesign-preview {
-  min-height: 320px;
-  padding: 1rem;
+  min-height: 260px;
+  padding: 0.8rem;
 }
 
 .redesign-preview .card-btns {
-  margin-top: auto;
   justify-content: center;
 }
 
 @media (max-width: 768px) {
+  .redesign-preview {
+    min-height: 340px;
+    padding: 1rem;
+  }
   .split-image {
     grid-template-columns: 1fr;
     aspect-ratio: auto;
@@ -1014,7 +1017,7 @@ details.program-details p {
     padding: 0.7rem 0.8rem;
     font-size: 1rem;
   }
-/* keeps before and after buttons from being pushed
+  /* keeps before and after buttons from being pushed
 off screen when in mobile view */
   /* program cards: show image first on narrow screens */
   .program-row,
