@@ -67,8 +67,8 @@ if (contactForm) {
 
   // show error on blur if field is empty
   // var nameField = document.getElementById('name');
-  var emailField = document.getElementById('email');
-  var messageField = document.getElementById('message');
+  // var emailField = document.getElementById('email');
+  // var messageField = document.getElementById('message');
 
   // nameField.addEventListener('blur', function () {
   //   if (!nameField.value.trim()) {
